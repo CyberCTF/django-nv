@@ -1,0 +1,5 @@
+app/**/.git
+app/**/__pycache__
+app/**/*.pyc
+app/db.sqlite3
+Dockerfile

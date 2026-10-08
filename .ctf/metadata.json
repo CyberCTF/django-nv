@@ -1,0 +1,9 @@
+{
+  "title": "django.nV",
+  "description": "django.nV: a purposefully vulnerable Django task manager (projects, tasks, notes, file uploads) with built-in tutorials covering the OWASP Top 10, from injection and broken authentication to insecure direct object references and misconfiguration.",
+  "question": "Find and exploit the vulnerabilities of the task manager, using the tutorials as hints.",
+  "category": "WEB",
+  "difficulty": 2,
+  "evidence_kind": "SECRET",
+  "capabilities": ["sql-injection", "cross-site-scripting", "broken-authentication", "idor", "csrf", "file-upload"]
+}

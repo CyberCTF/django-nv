@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://www.isoloom.com/schema/v1.json
+# django.nV (by nVisium, now NetSPI) as an Isoloom spec: the upstream Django source, vendored
+# unchanged in build/web/app/, run by a Python 3.5 / Django 1.8 image we wrote (upstream has no
+# Dockerfile), with its SQLite database created from the fixtures at build.
+# `isoloom generate`, then `isoloom up docker`.
+version: 1
+name: django-nv
+
+networks:
+  lab: { cidr: 10.60.29.0/24, internet: false }
+
+machines:
+  web:
+    networks: { lab: 10 }
+    services: [{ port: 8000, name: web, http: true, publish: 8029 }]
+    resources: { cpus: 1, memory_mb: 512 }
+    docker:
+      build: build/web
+
+checks:
+  - name: the task manager answers
+    http: http://web:8000/taskManager/
+    wait: 180
+  - name: the tutorials are served
+    http: http://web:8000/taskManager/tutorials/
+  - name: a new account registers and logs in
+    script: checks/register.sh
+
+message: |
+  django.nV answers at http://localhost:{{ machines.web.services.0.publish }}/taskManager/.
+  Register an account (or find the seeded users' passwords); the Tutorials link (top right)
+  describes each vulnerability with a hint to where it is.
