@@ -16,7 +16,7 @@ fixtures at build.
 
 ```bash
 isoloom generate
-isoloom up docker
+isoloom run docker
 ```
 
 Then open http://localhost:8029/taskManager/ and register an account. The Tutorials link (top
