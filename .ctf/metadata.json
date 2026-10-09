@@ -4,6 +4,5 @@
   "question": "Find and exploit the vulnerabilities of the task manager, using the tutorials as hints.",
   "category": "WEB",
   "difficulty": 2,
-  "evidence_kind": "SECRET",
-  "capabilities": ["sql-injection", "cross-site-scripting", "broken-authentication", "idor", "csrf", "file-upload"]
+  "evidence_kind": "SECRET"
 }
