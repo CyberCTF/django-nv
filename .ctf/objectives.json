@@ -1,0 +1,41 @@
+{
+  "objectives": [
+    {
+      "key": "main",
+      "title": "Read the flag",
+      "prompt": "Register on the task manager, find where it hands your input to a shell, run a command on the server, and read /ctf/flag.",
+      "check": { "evidence": "SECRET", "format": "FLAG{%s}" },
+      "dev": "FLAG{dev-django-nv}",
+      "hints": [
+        "The tutorials' A1 Injection entry is about a shell, not SQL. Which feature stores files on disk?",
+        "When a project file is uploaded, the server moves it with a shell command built from a value you choose."
+      ],
+      "steps": [
+        {
+          "key": "feature",
+          "title": "Find the feature",
+          "prompt": "Which project feature writes what you send to the server's disk?",
+          "check": { "answer": ["file upload", "upload", "upload file", "project file upload"] }
+        },
+        {
+          "key": "parameter",
+          "title": "Find the input",
+          "prompt": "Which form field of that feature ends up in the shell command? (its name)",
+          "check": { "answer": ["name", "title"] }
+        },
+        {
+          "key": "function",
+          "title": "Find the sink",
+          "prompt": "Which Python function runs that command?",
+          "check": { "answer": ["os.system", "system", "os.system()"] }
+        },
+        {
+          "key": "class",
+          "title": "Name the flaw",
+          "prompt": "Which vulnerability class lets your value run a command of its own?",
+          "check": { "answer": ["command injection", "os command injection", "shell injection"] }
+        }
+      ]
+    }
+  ]
+}
