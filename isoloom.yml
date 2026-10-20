@@ -7,21 +7,29 @@ version: 1
 name: django-nv
 
 # Given by the CyberCTF launcher: this player's flag. Without it the development flag.
-inputs: [CTF_FLAG_MAIN]
+inputs:
+  CTF_FLAG_MAIN: {}
 
 networks:
-  lab: { cidr: 10.60.29.0/24, internet: false }
+  lab: {cidr: 10.60.29.0/24, internet: false}
 
 machines:
   web:
-    networks: { lab: 10 }
-    services: [{ port: 8000, name: web, http: true, publish: 8029 }]
-    resources: { cpus: 1, memory_mb: 512 }
-    inputs: [CTF_FLAG_MAIN]
-    volumes: { ctf: /ctf }   # the flag, written by ctf/flag.sh at every start
-    docker:
+    networks: {lab: 10}
+    resources: {cpus: 1, memory_mb: 512}
+    volumes: {ctf: /ctf}     # the flag, written by ctf/flag.sh at every start
+    ports:
+      web:
+        port: 8000
+        protocol: http
+        publish: true
+    files:
+      - path: /run/lab/ctf_flag_main
+        input: CTF_FLAG_MAIN
+    setup:
+      - ctf/flag.sh
+    app:
       build: build/web
-      init: [ctf/flag.sh]
 
 checks:
   - name: the task manager answers
@@ -33,6 +41,6 @@ checks:
     script: checks/register.sh
 
 message: |
-  django.nV answers at http://localhost:{{ machines.web.services.0.publish }}/taskManager/.
+  django.nV answers at {{ machines.web.ports.web.url }}taskManager/.
   Register an account (or find the seeded users' passwords); the Tutorials link (top right)
   describes each vulnerability with a hint to where it is.
